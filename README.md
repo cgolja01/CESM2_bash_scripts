@@ -7,4 +7,7 @@ The purpose of these files is to automate the process of submitting or revising 
 * run_build_cesm: Sets up a batch submit script, indicating the user's requested cpus, memory and time allocation on the indicated partition. This will be variable based on user needs. This script clears "buildout" upon each submit.
 
 ## 2. Cleaning an Old Build: 
-
+* clean_build_bash: sets up a simple build clean inside the case folder of anything you wish to clean and resubmit. The user will have to insert any required modifications between the clean and the re-build (eg xml changes or copying over new user_nl_<model> files). 
+  * this will generate a file, "clean_buildout" in the folder in which you are running the build 
+* run_clean_build: sets up the batch job to execute clean_build_bash 
+ 
