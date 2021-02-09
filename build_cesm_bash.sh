@@ -7,53 +7,54 @@
 
 # To Run - this is an executable script that is then submitted within a batch
 # YOU MUST do this in batch or interactive mode, do not use on login node
+
+# the user should go through and complete any tasks labeled "TO DO" 
 ##########################################################################
 
 # SETUP CASE DETAILS (USER EDITS ) 
 
-CASE_NAME='B1850_MODS_TEST14_nochem'
-COMPSET='1850_CAM60_CLM50%BGC-CROP_CICE_POP2%ECO%ABIO-DIC_MOSART_CISM2%NOEVOLVE_WW3_BGC%BDRD'   #this is fullly coupled with RRTMG
-RES='f19_g17'
-STOPOP='ndays'
-STOPN=5
-JOBTIME='01:00:00' #note this gets up to hours 
-ARCHIVE='true'
-ARCH_OPT='nyears'
-ARCH_N=1
-CONT_RUN='false'
+######  USER TO DO'S --- FILL IN BELOW ##########  
+CASE_NAME='MY_FIRST_CASE'   #the name of your case 
+COMPSET='F2000climo'        # the name of your compset
+RES='f19_g17'               # your resolution
+STOPOP='ndays'              # units of your runtime
+STOPN=5                     # how long (in the above units) to run for 
+JOBTIME='01:00:00'          # how long to request on the cluster? 
+ARCHIVE='true'              # Do I want restart files? 
+ARCH_OPT='nyears'           # how often do I wanna output restart files (units) 
+ARCH_N=1                    # how often to output restart files in the above units ? 
+CONT_RUN='false'            # for new runs this is always 'false'; check NCAR for when this should be 'true'
 
 # RESUBMIT FOR LONG RUNS (DEFAULT =0) 
-RESUB=0  
+RESUB=0                     # do I need to have this resubmit more than one time (based on how many model years I want; eg runtime is > 168 hrs) 
 
 # ARE YOU DOING A BRANCH? 0=NO 1 = YES
-BRANCH=1
+# BRANCH=1                    # am I going to pull restart files and kick off from a previous run? 1= yes, 0 = no! 
+BRANCH=0
 
 # ID REFCASE FILES: 
-BRCPATH="/n/holystore01/LABS/keith_lab_seas/Lab/cgolja/CESM_restart_files/CMIP6/"
-BRCCASE="b.e21.B1850.f19_g17.CMIP6-piControl-2deg.001"
-BRCDATE="0501-01-01"
-BRCDIR="/n/holystore01/LABS/keith_lab_seas/Lab/cgolja/CESM_restart_files/CMIP6/b_e21_B1850_2degcmip6picontrol/0501-01-01-00000/"
-REST_COPY_TO="/n/holyscratch01/keith_lab_seas/cgolja/CESM213ROOT//Run/"
+#BRCPATH="/n/holystore01/LABS/keith_lab_seas/Lab/cgolja/CESM_restart_files/CMIP6/"      # path to my restart files
+#BRCCASE="b.e21.B1850.f19_g17.CMIP6-piControl-2deg.001"                                 # name of my previous case
+#BRCDATE="0501-01-01"                                                                   # date of previous case
+#BRCDIR="/n/holystore01/LABS/keith_lab_seas/Lab/cgolja/CESM_restart_files/CMIP6/b_e21_B1850_2degcmip6picontrol/0501-01-01-00000/" # full path to my restart files
+#REST_COPY_TO="/n/holyscratch01/keith_lab_seas/cgolja/CESM213ROOT//Run/"                # location of my run folder (edit this to be your own) 
 
 
 # MODIFY PES LAYOUT 
 # CPL, ATM, LND, ICE, OCN, ROF, GLC, WAV, ESP
-CPUS=('144' '144' '96' '96' '96' '96' '48' '48' '1')
-ROOTS=('0' '0' '0' '96' '144' '0' '0' '0' '0') 
+CPUS=('144' '144' '96' '96' '96' '96' '48' '48' '1') #specify how you want to run the models on the machine, simplest is to assign every model the same
+ROOTS=('0' '0' '0' '96' '144' '0' '0' '0' '0')       #specify how you want to run the models on the machine, simplest is to set all values to 0
 
+#SOURCE YOUR REQUIRED MODULES 
+cd /n/home04/cgolja/             #INPUT YOUR OWN PATHNAMES
+source CESM213_bash.rc           #INPUT THE NAME OF YOUR OWN CESM 2 BASH FILE
+cd $CIMEROOT/scripts/
 
-
-
+#### END OF USER TO-DO'S #### 
 
 ##### #### ##### #### #### #### #### #### 
 ##### #### ##### #### #### ####	#### #### 
 
-
-
-#SOURCE YOUR REQUIRED MODULES 
-cd /n/home04/cgolja/
-source CESM213_bash.rc
-cd $CIMEROOT/scripts/
 
 # CREATE THE CASE 
 ./create_newcase --case ${CASE_NAME} --compset ${COMPSET} --res ${RES}
